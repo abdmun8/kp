@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link href="https://fonts.cdnfonts.com/css/tahoma" rel="stylesheet"> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://html2canvas.hertzen.com/dist/html2canvas.js"
+    ></script>
+
+    <title>Filling Bindex Diskon Denda</title>
+    <style>
+      body {
+        font-family: "Work Sans", sans-serif;
+        font-optical-sizing: auto;
+      }
+      .bg-wrapper {
+        margin-top: 20px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        width: 200px;
+        height: 602px;
+        background-image: url(./filling-bindex-diskon-denda-1.jpg);
+        background-size: 200px 602px;
+      }
+      #year {
+        position: absolute;
+        font-size: 31px;
+        top: 315px;
+        color: #010101;
+      }
+      #month {
+        position: absolute;
+        font-size: 31px;
+        top: 270px;
+        color: #010101;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <label>
+        Tahun:
+        <input type="text" id="year-input" />
+      </label>
+      <label>
+        Bulan:
+        <input type="text" id="month-input" />
+      </label>
+      <button onclick="setYearAndMonth()">Buat</button>
+      <button disabled id="download-button" onclick="download()">
+        Download
+      </button>
+      <button onclick="reset()">Reset</button>
+    </div>
+    <div class="bg-wrapper" id="bg-wrapper">
+      <p id="year"></p>
+      <p id="month"></p>
+    </div>
+    <!-- <img width="200px" height="auto" src="filling-bindex-diskon-denda.jpg" /> -->
+    <script>
+      function setYearAndMonth() {
+        const yearInput = document.getElementById("year-input").value;
+        const monthInput = document.getElementById("month-input").value;
+        document.getElementById("year").innerHTML = yearInput.toUpperCase();
+        document.getElementById("month").innerHTML = monthInput.toUpperCase();
+        document.getElementById("download-button").disabled = false;
+      }
+
+      function reset() {
+        document.getElementById("year-input").value = "";
+        document.getElementById("month-input").value = "";
+        document.getElementById("year").innerHTML = "";
+        document.getElementById("month").innerHTML = "";
+        document.getElementById("download-button").disabled = true;
+      }
+
+      function download() {
+        createPDFfromHTML();
+      }
+
+      function createPDFfromHTML() {
+        const wrapper = document.getElementById("bg-wrapper");
+        const imageWidth = wrapper.offsetWidth;
+        const imageHeight = wrapper.offsetHeight;
+
+        html2canvas(wrapper).then(function (canvas) {
+          const imgData = canvas.toBlob(
+            (blob) => {
+              const blobUrl = URL.createObjectURL(blob);
+              window.open(blobUrl);
+            },
+            "image/jpeg",
+            2.0
+          );
+        });
+      }
+    </script>
+  </body>
+</html>
